@@ -1,0 +1,11 @@
+track gene_abundances
+bigDataUrl gene_reads.bam
+shortLabel Gene Abundances
+longLabel Gene Abundances estimated by Cufflinks
+type bam
+
+track splice_variants
+bigDataUrl splice_variants.bam
+shortLabel Splice Variants
+longLabel Splice Variants estimated by Cufflinks
+type bam
