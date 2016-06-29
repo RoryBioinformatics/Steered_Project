@@ -1,0 +1,6 @@
+hub track_hub
+shortLabel ROS rat MOA hub
+longLabel UCSC Genome Hub featuring RNA-Seq data from ROS treated rat livers
+genomesFile genomes.txt
+email rc368@student.le.ac.uk
+descriptionUrl descriptionUrl
