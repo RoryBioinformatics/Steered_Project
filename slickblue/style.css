@@ -46,13 +46,13 @@ top:18px;
 
 
 #header h2
-#{
-#position:absolute;
-#text-align:right;
-#color:#A9D1FA;
-#left:700px;
-#top:38px;
-#width:300px;
+{
+position:absolute;
+text-align:right;
+color:#A9D1FA;
+left:700px;
+top:38px;
+width:300px;
 }
 
 #mainpic
