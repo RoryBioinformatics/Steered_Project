@@ -7,15 +7,15 @@ use Statistics::R;
 # First take the value entered into the text field and put it into a variable.
 
 my $who  = param("gene_name");
-system 'gedit about.txt';
 # Then generate an HTML page which prints the contents of the variable.
-#$ENV{'PATH'} = '/bin:/usr/bin';
-#my $R = Statistics::R->new();
-#$R->startR;
-#$R->send('x = 123');
-#$R->send('print(x)');
-#my $ret = $R->read;
-#$R->stopR;
+$ENV{'PATH'} = '/bin:/usr/bin';
+
+my $R = Statistics::R->new();
+$R->startR;
+$R->send('x = 123');
+$R->send('print(x)');
+my $ret = $R->read;
+$R->stopR;
 #exit;
 print <<END_of_HTML;
 Content-type: text/html
@@ -77,7 +77,7 @@ Content-type: text/html
            	<p>&nbsp;</p>
        	  <h3>Gene Search</h3>
 	<p>Your Gene is $who. 
-	The returned value was: .</p>
+	The returned value was: $ret.</p>
 </div>
         <div id="content_bottom"></div>
             
