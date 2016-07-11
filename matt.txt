@@ -1,4 +1,4 @@
-06/07/16
+
 	CummeRbund:
 	https://bioconductor.org/packages/release/bioc/html/cummeRbund.html
 
@@ -8,7 +8,7 @@
 	NASB Fall 2013 Lecture 20 - CummeRbund Demo
 	https://www.youtube.com/watch?v=ZysuTStuQnk
 
-07/07/16
+
 	Followed R guide to Shiny:
 	http://zevross.com/blog/2016/04/19/r-powered-web-applications-with-shiny-a-tutorial-and-cheat-sheet-with-40-example-apps/
 	Produces app to be inserted into webpage. Not sure on where this R code goes.
@@ -20,5 +20,25 @@
 
 	CummeRbund commands for above graphs:
 
-08/07/16
-	Get graphs from R working.
+
+Get graphs from R working.
+https://bioconductor.org/packages/release/bioc/vignettes/cummeRbund/inst/doc/cummeRbund-manual.pdf
+
+
+Boxplot 
+> b<-csBoxplot(genes(cuff))
+> b
+> brep<-csBoxplot(genes(cuff),replicates=T)
+> brep
+
+
+data <- read.table(file='something.gtf' , header=T , sep="\t")
+view(data) #shows able 
+head data #shows top of data
+
+load(CummeRbund)
+cuf_data<- readCufflinks('G1_diff') #file name comes from CWD, which needs to be set first.
+
+plot the distribution of expression levels for each sample:
+den <- csDensity(genes(cuff_data))
+den
