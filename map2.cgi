@@ -2,14 +2,30 @@
 use strict;
 use CGI qw(:cgi); #use CGI
 use CGI::Carp qw(fatalsToBrowser); # Send error messages to browser
+use Statistics::R;
 
 # Take value from post method
 my $input = param("gene_name");
+chomp $input;
 
 # Define environment pathway
 $ENV{'PATH'} = '/bin:/usr/bin';
 
-# http://www.broadinstitute.org/igv/projects/current/igv.php?sessionURL=localhost/accepted_hits.bam&genome=rn6&locus=$locus
+my $R = Statistics::R->new();
+$R->startR;
+$R->send('library("cummeRbund")');
+$R->send('setwd("/home/rc283/Documents/BS_Group_Project/rn6_cuffdiff_out")');
+$R->send('cuff<-readCufflinks()');
+$R->send("myGeneID<-'$input'");
+$R->send('myGene<-getGene(cuff,myGeneID)');
+$R->send('myGene');
+$R->send('head(fpkm(myGene))');
+$R->send('head(fpkm(isoforms(myGene)))');
+$R->stopR;
+my $ret = $R->read;
+
+
+# http://www.broadinstitute.org/igv/projects/current/igv.php?sessionURL=localhost/C1_SRR1178016.bam&genome=rn6&locus=$locus
 my $locus = 'chr1:80,608,553-80,639,261';
 # Generate HTML template of IGV browser.
 print <<END_OF_HTML;
@@ -73,8 +89,9 @@ Content-type: text/html
            	<p>&nbsp;</p>
 		<p> The below link will open a local IGV browser session with the specified gene locus after file download.</p>
 		<p>&nbsp</p>
+		<p> The cufflinks output is $ret.</p>
 	<h3> Download</h3>
-		<li><a href="http://www.broadinstitute.org/igv/projects/current/igv.php?sessionURL=localhost/accepted_hits.bam&genome=rn6&locus=$locus">Bam File</a></li>
+		<li><a href="http://www.broadinstitute.org/igv/projects/current/igv.php?sessionURL=localhost/C1_SRR1178016.bam&genome=rn6&locus=$locus">Bam File</a></li>
 		<p>&nbsp;</p>
 </div>
         <div id="content_bottom"></div>
