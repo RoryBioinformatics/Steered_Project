@@ -20,7 +20,7 @@
 # Plot the distribution of expression levels of each sample
 > den <- csDensity(genes(cuff))
 > den
-> densRep<-csDensity(genes(cuff),replicates=T)
+> densRep<-csDensity(genes(cuff),replicates=)
 	#ERROR: Error in sqliteExecStatement(con, statement, bind.data) : 
     #RS-DBI driver: (error in statement: near ")": syntax error)
 > densRep
@@ -48,11 +48,20 @@
     #error in evaluating the argument 'object' in selecting a method for function 'genes': Error: object 'cuff' not found
 > dend.rep
 
+# GetGene function
+> myGeneID <- "GeneName"
+> myGene <- getGene(cuff,myGeneID)
+> myGene
 
-
+# Gene-level plots example
+> g1 <- expressionPlot(myGene,replicates=TRUE)
+> g1
 
 
 
 # Create a volcano plot to inspect differentially expressed genes
 > vol <- csVolcano(genes(cuff) , 'q1' , 'q2') #This doesn't work.
 > vol
+
+
+#In summary. All these error messages are common across everyone's installation.

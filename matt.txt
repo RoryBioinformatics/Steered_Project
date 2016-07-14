@@ -42,3 +42,6 @@ cuf_data<- readCufflinks('G1_diff') #file name comes from CWD, which needs to be
 plot the distribution of expression levels for each sample:
 den <- csDensity(genes(cuff_data))
 den
+
+
+chr1:31603296-31698329 AhHHH
