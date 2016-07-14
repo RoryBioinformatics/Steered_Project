@@ -18,15 +18,16 @@ $R->send('setwd("/home/rc283/Documents/BS_Group_Project/rn6_cuffdiff_out")');
 $R->send('cuff<-readCufflinks()');
 $R->send("myGeneID<-'$input'");
 $R->send('myGene<-getGene(cuff,myGeneID)');
-$R->send('myGene');
-$R->send('head(fpkm(myGene))');
-$R->send('head(fpkm(isoforms(myGene)))');
-$R->stopR;
+$R->send('gene.features<-annotation(myGene)');
+$R->send('gene.features');
 my $ret = $R->read;
-
-
-# http://www.broadinstitute.org/igv/projects/current/igv.php?sessionURL=localhost/C1_SRR1178016.bam&genome=rn6&locus=$locus
-my $locus = 'chr1:80,608,553-80,639,261';
+$R->stopR;
+my $taken;
+if ($ret =~ m/(chr[1-20XM]:\d+\W?\d+)\s+/){
+$taken = $1;
+}
+# http://www.broadinstitute.org/igv/projects/current/igv.php?sessionURL=localhost/C1_SRR1178016.bam&sessionURL=localhost/C1_SRR1178016.bam.bai&genome=rn6&locus=$locus
+my $locus = "$taken";
 # Generate HTML template of IGV browser.
 print <<END_OF_HTML;
 Content-type: text/html
@@ -76,9 +77,6 @@ Content-type: text/html
               <div id="leftmenu_bottom"></div>
         </div>
         
-        
-        
-        
 		<div id="content">
         
         
@@ -89,9 +87,9 @@ Content-type: text/html
            	<p>&nbsp;</p>
 		<p> The below link will open a local IGV browser session with the specified gene locus after file download.</p>
 		<p>&nbsp</p>
-		<p> The cufflinks output is $ret.</p>
+		<p> The Trip13 output is visualised below. </p>
 	<h3> Download</h3>
-		<li><a href="http://www.broadinstitute.org/igv/projects/current/igv.php?sessionURL=localhost/C1_SRR1178016.bam&genome=rn6&locus=$locus">Bam File</a></li>
+		<li><a href="http://www.broadinstitute.org/igv/projects/current/igv.php?sessionURL=/var/www/html/C1_SRR1178016.bam&genome=rn6&locus=$locus">Bam File</a></li>
 		<p>&nbsp;</p>
 </div>
         <div id="content_bottom"></div>
