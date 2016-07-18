@@ -117,6 +117,16 @@
 > myGene
  #Some of these return zero data as you might expect
 
+####For example with gene_id "ERCC-00131"####
+> myGeneId <- "ERCC-00131"
+> myGene<-getGene(cuff,myGeneId)
+
+
+#### For example with genename "Plagl1"#####
+> myGeneId <- "Plagl1"
+> myGene<-getGene(cuff,myGeneId)
+
+
 # Expression Plot
 > g1<-expressionPlot(myGene)
 > g1
@@ -128,6 +138,8 @@
 # Pie Charts
 > gp<-csPie(myGene,level="isoforms")
 > gp
+	##Supatcha >> Error: could not find function "csPie"
+
 # http://compbio.mit.edu/cummeRbund/index.html
 # Need cummeRbund 2.7 for Pie Charts, have 2.4
 
