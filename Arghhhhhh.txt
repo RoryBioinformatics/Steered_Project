@@ -1,13 +1,19 @@
 # Check that gplot2/plyr/cummeRbund/SQLite 0.1... versions are loaded.
+# Example genes: Armc3 , Nsun2 , Rims4 , Matn4 .
 
 # load CummbeRbund library
 > library("cummeRbund")
 
 # Setup working directory
 > setwd("/home/mb704/Desktop/cuffdiff_output/rn4_cuffdiff_out")
+> setwd("/home/mb704/Desktop/cuffdiff_output_dispersion/rn4_cuffdiff_out_dispersion")
 
 # Create a cummbeRbund database
 > cuff <- readCufflinks()
+
+##################################################################
+###########  Global Statistics and Quality Control ###############
+##################################################################
 
 # Create a dispersion plot
 > disp <- dispersionPlot(genes(cuff))
@@ -16,6 +22,11 @@
     #replacement has 1 row, data has 0
     #In addition: Warning message:
     #In max(panels$ROW) : no non-missing arguments to max; returning -Inf
+
+> isoforms.scv<-fpkmSCVPlot(isoforms(cuff))
+> genes.scv<-fpkmSCVPlot(genes(cuff))
+#Error in sqliteExecStatement(con, statement, bind.data) : 
+#  RS-DBI driver: (error in statement: near ")": syntax error)
 
 # Plot the distribution of expression levels of each sample
 > den <- csDensity(genes(cuff))
@@ -48,20 +59,146 @@
     #error in evaluating the argument 'object' in selecting a method for function 'genes': Error: object 'cuff' not found
 > dend.rep
 
-# GetGene function
-> myGeneID <- "GeneName"
-> myGene <- getGene(cuff,myGeneID)
-> myGene
+# VolvanoMatrix
+> v<-csVolcanoMatrix(genes(cuff))
+> v
 
-# Gene-level plots example
-> g1 <- expressionPlot(myGene,replicates=TRUE)
+##################################################################
+######################## Gene Sets ###############################
+##################################################################
+
+#Creting Gene Sets
+> data(sampleData)
+> myGeneIds<-sampleIDs
+> myGeneIds
+
+> myGenes<-getGenes(cuff,myGeneIds)
+> myGenes
+
+> head(fpkm(myGenes))
+
+# Heatmap 
+> h<-csHeatmap(myGenes,cluster=✬both✬)
+> h
+
+# Expression Barplot
+> b<-expressionBarplot(myGenes)
+> b
+
+#Need to rename our conditions!
+# Scatter
+> s<-csScatter(myGenes, "Fibroblasts","hESC",smooth=T)
+> s	
+# Volcano
+> v<-csVolcano(myGenes,"Fibroblasts","hESC")
+# Heatmap of isoforms
+> ih<-csHeatmap(isoforms(myGenes),cluster=✬both✬,labRow=F)
+	#'both' needs to be changed.
+
+##################################################################
+################### Individual Genes #############################
+##################################################################
+
+# Example genes: Armc3 , Nsun2 , Rims4 , Matn4 .
+#                Tubg1 , Ramp2 , Aoc3 , Rdm1.
+> myGeneId<-"Armc3"
+> myGene<-getGene(cuff,myGeneId)
+> myGene
+ #Some of these return zero data as you might expect
+
+# Expression Plot
+> g1<-expressionPlot(myGene)
 > g1
 
+# Expression Barplot
+> gb<-expressionBarplot(myGene)
+> gb
+
+# Pie Charts
+> gp<-csPie(myGene,level="isoforms")
+> gp
+# http://compbio.mit.edu/cummeRbund/index.html
+# Need cummeRbund 2.7 for Pie Charts, have 2.4
 
 
-# Create a volcano plot to inspect differentially expressed genes
-> vol <- csVolcano(genes(cuff) , 'q1' , 'q2') #This doesn't work.
-> vol
 
 
-#In summary. All these error messages are common across everyone's installation.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
