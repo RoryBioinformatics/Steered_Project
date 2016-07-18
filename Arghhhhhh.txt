@@ -78,7 +78,7 @@
 > head(fpkm(myGenes))
 
 # Heatmap 
-> h<-csHeatmap(myGenes,cluster=✬both✬)
+> h<-csHeatmap(myGenes,cluster='both')
 > h
 
 # Expression Barplot
@@ -87,13 +87,24 @@
 
 #Need to rename our conditions!
 # Scatter
-> s<-csScatter(myGenes, "Fibroblasts","hESC",smooth=T)
+> s<-csScatter(myGenes, "control","treated",smooth=T)
+	#Using tracking_id, sample_name as id variables
 > s	
+	#show Error in seq.default(range[1], range[2], length = n) : 'from' cannot be NA, NaN or infinite but the plot show
+	
+	
 # Volcano
-> v<-csVolcano(myGenes,"Fibroblasts","hESC")
+> v<-csVolcano(myGenes,"control","treated")
+> v
+
 # Heatmap of isoforms
-> ih<-csHeatmap(isoforms(myGenes),cluster=✬both✬,labRow=F)
+> ih<-csHeatmap(isoforms(myGenes),cluster='both',labRow=F)
 	#'both' needs to be changed.
+> ih
+
+# Heatmap of TSS
+> th<-csHeatmap(TSS(myGenes),cluster='both',labRow=F)
+> th 
 
 ##################################################################
 ################### Individual Genes #############################
