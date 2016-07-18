@@ -47,7 +47,7 @@
 # Create a matrix of pairwise scatterplot
 > scat <- csScatterMatrix(genes(cuff))
 > scat
-> s <- csScatter(genes(cuff),"hESC","Fibroblasts",smooth=T) #Need to change examples
+> s <- csScatter(genes(cuff),"control","treated",smooth=T) #Need to change examples
 > s
 
 # Create a Dendogram
@@ -59,7 +59,7 @@
     #error in evaluating the argument 'object' in selecting a method for function 'genes': Error: object 'cuff' not found
 > dend.rep
 
-# VolvanoMatrix
+# VolcanoMatrix
 > v<-csVolcanoMatrix(genes(cuff))
 > v
 
