@@ -9,7 +9,7 @@
 <body>
 <div id="container">
 		<div id="header">
-            <h1>Beta-<span class="off">EstradiolDB</span></h>
+            <h1>FingeRN<span class="off">AilsDB</span></h>
             <h2>Database of BES action on the expression of <i>Rattus norvegicus</i> liver genes</h2>
         </div>   
         
@@ -17,9 +17,7 @@
         	<ul>
             	<li class="menuitem"><a href="index.html">Home</a></li>
                 <li class="menuitem"><a href="about.html">About</a></li>
-                <li class="menuitem"><a href="gene_search.html">Gene Search</a></li>
-                <li class="menuitem"><a href="gene_list.html">Gene List</a></li>
- 		<li class="menuitem"><a href="#">Contact Us!</a></li>
+                <li class="menuitem"><a href="http://143.210.153.168:3838/">Analysis and Visualisation</a></li>
  		<li class="menuitem"><a href="mapping.html">Annotation Mapping</a></li>
             </ul>
         </div>
@@ -53,14 +51,24 @@
         <div id="content_main">
         	<p>&nbsp;</p>
            	<p>&nbsp;</p>
-       	  <h3>Gene Mapping Search</h3>
-		<p> This search allows the visualisation of the gene mapped to the genome in the IGV browser. </p>
-            <form method="post" action="cgi-bin/map2.cgi" enctype="application/x-www-form-urlencoded">
-            <p>Please search for a gene name: <input type="text" name="gene_name" size="20" /></p> 
-            <input name="gene" type="submit" />
+       	<h3>Gene Mapping Search</h3>
+		<p> This search allows the visualisation of the gene mapped to the genome in the IGV browser. 
+		This visualisation requires the pre-installation of the IGV browser on your local area. The link provided will allow the download of necessary .bam track files.</p>
+           	<p>&nbsp;</p>
+        <form method="post" action="cgi-bin/map2.cgi">
+                <p>Please search for a gene name: <input type="text" name="gene_name" size="20" /></p> 
+           	<p>&nbsp;</p>
+		<p> Please select your preferred track visualisation:</p>
+                <input type="radio" name="track" value="Control"> Control<br>
+		<input type="radio" name="track" value="Test"> Test<br>
+           	<p>&nbsp;</p>
+		<input name="gene" type="submit" />
                 <input type="reset" value="Clear" />
-            </form>
-            <p>&nbsp;</p>
+        </form>
+
+		<p>&nbsp;</p>
+	
+		<p>&nbsp;</p>
 </div>
         <div id="content_bottom"></div>
             
