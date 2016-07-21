@@ -8,13 +8,28 @@ use Statistics::R;
 my $input = param("gene_name");
 chomp $input;
 
+my $input2 = param("track");
+chomp $input2;
+my $track;
+my $pass;
+my $fail;
+
+if ($input2 =~ /Control/){
+$track = "control";
+}
+elsif ($input2 =~ /Test/){
+$track = "test";
+}
+else {
+$fail = "The Database does not contain $input gene expression";
+}
 # Define environment pathway
 $ENV{'PATH'} = '/bin:/usr/bin';
 
 my $R = Statistics::R->new();
 $R->startR;
 $R->send('library("cummeRbund")');
-$R->send('setwd("/home/rc283/Documents/BS_Group_Project/rn6_cuffdiff_out")');
+$R->send('setwd("/home/ss977/public_html/rn6_cuffdiff_out")');
 $R->send('cuff<-readCufflinks()');
 $R->send("myGeneID<-'$input'");
 $R->send('myGene<-getGene(cuff,myGeneID)');
@@ -25,9 +40,13 @@ $R->stopR;
 my $taken;
 if ($ret =~ m/(chr[1-20XM]:\d+\W?\d+)\s+/){
 $taken = $1;
+$pass = "The $input gene is visualised below.";
 }
-# http://www.broadinstitute.org/igv/projects/current/igv.php?sessionURL=localhost/C1_SRR1178016.bam&sessionURL=localhost/C1_SRR1178016.bam.bai&genome=rn6&locus=$locus
+else {
+$fail = "The Database does not contain the $input chromosome location. It may be due to a lack of expression or misspelling ;)";
+}
 my $locus = "$taken";
+
 # Generate HTML template of IGV browser.
 print <<END_OF_HTML;
 Content-type: text/html
@@ -36,25 +55,23 @@ Content-type: text/html
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link rel="stylesheet" type="text/css" href="/style1.css" />
+<link rel="stylesheet" type="text/css" href="/~ss977/style1.css" />
 <title>RNA-Seq Analysis of BES on Rat Livers</title>
 </head>
 
 <body>
 <div id="container">
 		<div id="header">
-            <h1>Beta-<span class="off">EstradiolDB</span></h>
+            <h1>FingeRN<span class="off">AilsDB</span></h>
             <h2>Database of BES action on the expression of <i>Rattus norvegicus</i> liver genes</h2>
         </div>   
         
         <div id="menu">
         	<ul>
-            	<li class="menuitem"><a href="/index.html">Home</a></li>
-                <li class="menuitem"><a href="/about.html">About</a></li>
-                <li class="menuitem"><a href="/gene_search.html">Gene Search</a></li>
-                <li class="menuitem"><a href="/gene_list.html">Gene List</a></li>
- 		<li class="menuitem"><a href="#">Contact Us!</a></li>
- 		<li class="menuitem"><a href="/mapping.html">Annotation Mapping</a></li>
+            	<li class="menuitem"><a href="/~ss977/index.html">Home</a></li>
+                <li class="menuitem"><a href="/~ss977/about.html">About</a></li>
+                <li class="menuitem"><a href="http://143.210.153.168:3838/diff_gene_exp_shinyapp/">Analysis and Visualisation</a></li>
+ 		<li class="menuitem"><a href="/~ss977/mapping.html">Annotation Mapping</a></li>
             </ul>
         </div>
         
@@ -81,16 +98,21 @@ Content-type: text/html
         
         
         <div id="content_top"></div>
-        <div id="content_main">
+<div id="content_main">
 	<h2>Gene Mapping Search</h2>
         	<p>&nbsp;</p>
            	<p>&nbsp;</p>
 		<p> The below link will open a local IGV browser session with the specified gene locus after file download.</p>
+		<p> $pass $fail</p>
 		<p>&nbsp</p>
-		<p> The Trip13 output is visualised below. </p>
 	<h3> Download</h3>
-		<li><a href="http://www.broadinstitute.org/igv/projects/current/igv.php?sessionURL=/var/www/html/C1_SRR1178016.bam&genome=rn6&locus=$locus">Bam File</a></li>
 		<p>&nbsp;</p>
+		<p>The IGV browser download below allows for the visualisation of your chosen gene, including intronic reads.</p>
+		<li><a href="http://www.broadinstitute.org/igv/projects/current/igv.php?sessionURL=http://bioinf6.bioc.le.ac.uk/~ss977/merged_$track.bam,http://bioinf6.bioc.le.ac.uk/~ss977/merged_$track.bam.bai&genome=rn6&locus=$locus">IGV Gene Visualisation</a></li>
+		<p>&nbsp;</p>
+		<p>If you would like to view the whole $track alignment, please download and load the following files into your IGV browser.</p>
+		<li><a href="/~ss977/merged_$track.bam.bai">Index File Download</a></li>
+		<li><a href="/~ss977/merged_$track.bam">Bam File Download</a></li>
 </div>
         <div id="content_bottom"></div>
             
