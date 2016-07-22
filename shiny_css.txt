@@ -1,0 +1,10 @@
+Ken-
+
+
+unigene_shinyapp-
+                -www-
+                    -style.css
+                    -images-
+                          - slickblue/images/files (the directory in the slickblue folder called images)
+                -app.R (latest copy I sent you)
+                -All the other shinyapp files
