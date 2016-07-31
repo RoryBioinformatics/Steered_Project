@@ -2,30 +2,31 @@
 use strict;
 use CGI qw(:cgi); #use CGI
 use CGI::Carp qw(fatalsToBrowser); # Send error messages to browser
-use Statistics::R;
+use Statistics::R; #send R commands
 
 # Take value from post method
 my $input = param("gene_name");
 chomp $input;
 
+#Take track choice from post method
 my $input2 = param("track");
 chomp $input2;
 my $track;
 my $pass;
 my $fail;
 
+#check the track choice
 if ($input2 =~ /Control/){
 $track = "control";
 }
 elsif ($input2 =~ /Test/){
 $track = "test";
 }
-else {
-$fail = "The Database does not contain $input gene expression";
-}
+
 # Define environment pathway
 $ENV{'PATH'} = '/bin:/usr/bin';
 
+#send commands to cummeRund in R
 my $R = Statistics::R->new();
 $R->startR;
 $R->send('library("cummeRbund")');
@@ -38,6 +39,8 @@ $R->send('gene.features');
 my $ret = $R->read;
 $R->stopR;
 my $taken;
+
+#Use regex to find the chromosome locus in the returned values. If not, the user is informed of such.
 if ($ret =~ m/(chr[1-20XM]:\d+\W?\d+)\s+/){
 $taken = $1;
 $pass = "The $input gene is visualised below.";
@@ -62,7 +65,7 @@ Content-type: text/html
 <body>
 <div id="container">
 		<div id="header">
-            <h1>FingeRN<span class="off">AilsDB</span></h>
+            <h1>Finge<span class="off">RNA</span>ils</h>
             <h2>Database of BES action on the expression of <i>Rattus norvegicus</i> liver genes</h2>
         </div>   
         
@@ -70,7 +73,7 @@ Content-type: text/html
         	<ul>
             	<li class="menuitem"><a href="/~ss977/index.html">Home</a></li>
                 <li class="menuitem"><a href="/~ss977/about.html">About</a></li>
-                <li class="menuitem"><a href="http://143.210.153.168:3838/diff_gene_exp_shinyapp/">Analysis and Visualisation</a></li>
+                <li class="menuitem"><a href="http://143.210.153.168:3838/rn6_app/">Analysis and Visualisation</a></li>
  		<li class="menuitem"><a href="/~ss977/mapping.html">Annotation Mapping</a></li>
             </ul>
         </div>
@@ -87,6 +90,7 @@ Content-type: text/html
                     <li><a href="http://www.ncbi.nlm.nih.gov/pubmed/25150839">Wang Paper</a></li>
                     <li><a href="http://cole-trapnell-lab.github.io/cufflinks/">Cufflinks</a></li>
                     <li><a href="https://ccb.jhu.edu/software/tophat/index.shtml">TopHat</a></li>
+                    <li><a href="https://github.com/RoryBioinformatics/Steered_Project">GitHub Resources</a></li>
                 </ul>
 </div>
                 
@@ -107,8 +111,8 @@ Content-type: text/html
 		<p>&nbsp</p>
 	<h3> Download</h3>
 		<p>&nbsp;</p>
-		<p>The IGV browser download below allows for the visualisation of your chosen gene, including intronic reads.</p>
-		<li><a href="http://www.broadinstitute.org/igv/projects/current/igv.php?sessionURL=http://bioinf6.bioc.le.ac.uk/~ss977/merged_$track.bam,http://bioinf6.bioc.le.ac.uk/~ss977/merged_$track.bam.bai&genome=rn6&locus=$locus">IGV Gene Visualisation</a></li>
+		<p>The IGV browser download below allows for the visualisation of your chosen gene.</p>
+		<li><a href="http://www.broadinstitute.org/igv/projects/current/igv.php?sessionURL=http://bioinf6.bioc.le.ac.uk/~ss977/merged_$track.bam&genome=rn6&locus=$locus">IGV Gene Visualisation</a></li>
 		<p>&nbsp;</p>
 		<p>If you would like to view the whole $track alignment, please download and load the following files into your IGV browser.</p>
 		<li><a href="/~ss977/merged_$track.bam.bai">Index File Download</a></li>
